@@ -25,7 +25,7 @@ public class NameFileReader {
         } catch (FileNotFoundException e) {
             throw new IllegalStateException(String.format("File %s not exists !",fileName));
         } catch (IOException e) {
-            e.printStackTrace();
+             throw new IllegalStateException(e.getMessage());
         }
     }
 
