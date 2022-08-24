@@ -10,10 +10,17 @@ public class NameFileReader {
 
         File file = new File(fileName);
 
+        long count = 0;
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line;
             while ((line = br.readLine()) != null) {
-                System.out.println(line);
+                count++;
+                if(count % 2 == 0)
+                    continue;
+
+                NameSplitter person = new NameSplitter(line);
+                if(person.isValid())
+                    System.out.println(person.getFullName());
             }
         } catch (FileNotFoundException e) {
             throw new IllegalStateException(String.format("File %s not exists !",fileName));
