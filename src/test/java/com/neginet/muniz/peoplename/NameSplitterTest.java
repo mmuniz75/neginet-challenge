@@ -29,11 +29,14 @@ public class NameSplitterTest {
         var commonFirstNames = commonNames.getFirstNames();
         var commonLastNames = commonNames.getLastNames();
 
-        assertEquals("Smith", commonLastNames.get(2L));
-        assertEquals("Cartman", commonLastNames.get(1L));
+        assertEquals("Smith", commonLastNames.get(2L).get(0));
+        assertEquals("Thomas", commonLastNames.get(1L).get(0));
+        assertEquals("Upton", commonLastNames.get(1L).get(1));
+        assertEquals("Cartman", commonLastNames.get(1L).get(2));
 
-        assertEquals("Joan", commonFirstNames.get(3L));
-        assertEquals("Eric", commonFirstNames.get(1L));
+        assertEquals("Joan", commonFirstNames.get(3L).get(0));
+        assertEquals("Sam", commonFirstNames.get(1L).get(0));
+        assertEquals("Eric", commonFirstNames.get(1L).get(1));
     }
 
 }

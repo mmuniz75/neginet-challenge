@@ -45,6 +45,7 @@ public class NameFileReader {
         }
 
         output.setNameCounts(new NameCounts(firstNames.size(), lastNames.size(), fullNames.size()));
+        commonNames.shirinkMapNames();
         output.setCommonNames(commonNames);
         return output;
     }
