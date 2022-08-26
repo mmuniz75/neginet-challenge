@@ -1,10 +1,12 @@
 package com.neginet.muniz.peoplename;
 
+import com.neginet.muniz.peoplename.domain.CommonNames;
 import com.neginet.muniz.peoplename.domain.Person;
 import com.neginet.muniz.peoplename.dto.AnalisysOutput;
 import com.neginet.muniz.peoplename.dto.NameCounts;
 
 import java.io.*;
+import java.net.CookieHandler;
 import java.util.HashMap;
 
 public class NameFileReader {
@@ -12,6 +14,7 @@ public class NameFileReader {
     private HashMap<String, Long> firstNames = new HashMap<>();
     private HashMap<String, Long> lastNames = new HashMap<>();
     private HashMap<String, Long> fullNames = new HashMap<>();
+    private CommonNames commonNames = new CommonNames();
 
     public AnalisysOutput process (String fileName) {
 
@@ -42,20 +45,30 @@ public class NameFileReader {
         }
 
         output.setNameCounts(new NameCounts(firstNames.size(), lastNames.size(), fullNames.size()));
+        output.setCommonNames(commonNames);
         return output;
     }
 
     private void processNameCounts(Person person){
-        sumMap(firstNames, person.getFirstName());
-        sumMap(lastNames, person.getLastName());
+        long count = sumMap(firstNames, person.getFirstName());
+        commonNames.addFirstName(person.getFirstName(), count);
+
+        count = sumMap(lastNames, person.getLastName());
+        commonNames.addLastName(person.getLastName(), count);
+
         sumMap(fullNames, person.getFullName());
     }
 
-    private void sumMap(HashMap<String, Long> map, String key){
-        if(map.containsKey(key))
-            map.put(key, map.get(key) + 1);
-        else
-            map.put(key, 1L);
+    private Long sumMap(HashMap<String, Long> map, String key){
+       long count = 1L ;
+
+       if(map.containsKey(key)) {
+            count = map.get(key) + 1;
+            map.put(key, count);
+       }else
+            map.put(key, count);
+
+       return count;
     }
 
 }

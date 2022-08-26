@@ -24,5 +24,16 @@ public class NameSplitterTest {
         assertTrue( nameCounts.getCountFullName() == 5);
         assertTrue( nameCounts.getCountLastNames() == 4);
         assertTrue( nameCounts.getCountFistNames() == 3);
+
+        var commonNames = output.getCommonNames();
+        var commonFirstNames = commonNames.getFirstNames();
+        var commonLastNames = commonNames.getLastNames();
+
+        assertEquals("Smith", commonLastNames.get(2L));
+        assertEquals("Cartman", commonLastNames.get(1L));
+
+        assertEquals("Joan", commonFirstNames.get(3L));
+        assertEquals("Eric", commonFirstNames.get(1L));
     }
+
 }
