@@ -2,6 +2,8 @@ package com.neginet.muniz.peoplename;
 
 import com.neginet.muniz.peoplename.dto.NameCounts;
 
+import java.util.TreeMap;
+
 public class PeopleNameApp {
 
     public static void main (String[] args) {
@@ -17,7 +19,8 @@ public class PeopleNameApp {
             var output = nameFileReader.process(fileName);
 
             printFirstOutPut(output.getNameCounts());
-
+            printCommonOutPut(output.getCommonNames().getLastNames(),"last");
+            printCommonOutPut(output.getCommonNames().getFirstNames(),"first");
 
         } catch (Exception e) {
            System.out.println(e.getMessage());
@@ -29,4 +32,11 @@ public class PeopleNameApp {
        System.out.println(String.format("Last names: %s",counts.getCountLastNames()));
        System.out.println(String.format("First names: %s",counts.getCountFistNames()));
    }
+
+    private static void printCommonOutPut(TreeMap<Long, String> map, String title){
+        System.out.println(String.format("\nThe most common %s names are:", title));
+        for(long key : map.keySet())
+            System.out.println( map.get(key) + " : " + key);
+    }
+
 }
