@@ -1,0 +1,27 @@
+Full names : 48418
+Last names: 468
+First names: 3006
+
+The most common last names are:
+Barton : 143
+Lang : 136
+Ortiz : 135
+Hills : 130
+Becker : 128
+Crist : 127
+McKenzie : 126
+Herman : 125
+Harris : 124
+Kris : 123
+
+The most common first names are:
+Tara : 32
+Stephania : 31
+Kayley : 29
+Lempi : 28
+Linnie : 27
+Jose : 26
+Hubert : 25
+Elyssa : 24
+Demarco : 23
+Sadie : 22
