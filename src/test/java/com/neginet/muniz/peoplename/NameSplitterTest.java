@@ -1,7 +1,10 @@
 package com.neginet.muniz.peoplename;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 public class NameSplitterTest {
 
@@ -15,6 +18,11 @@ public class NameSplitterTest {
 
     @Test
     public void oneInvalidName() {
-        NameFileReader.process(rootPath + "coding-test-data-1.txt");
+        NameFileReader nameFileReader = new NameFileReader();
+        var output = nameFileReader.process(rootPath + "coding-test-data-1.txt");
+        var nameCounts = output.getNameCounts();
+        assertTrue( nameCounts.getCountFullName() == 5);
+        assertTrue( nameCounts.getCountLastNames() == 4);
+        assertTrue( nameCounts.getCountFistNames() == 3);
     }
 }

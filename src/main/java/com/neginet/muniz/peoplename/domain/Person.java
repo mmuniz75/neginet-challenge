@@ -1,18 +1,26 @@
-package com.neginet.muniz.peoplename;
+package com.neginet.muniz.peoplename.domain;
 
 import java.util.StringTokenizer;
 
-public class NameSplitter {
+public class Person {
 
     private String firstName;
     private String lastName;
 
-    public NameSplitter(String fileLine){
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public Person(String fileLine){
         StringTokenizer names = new StringTokenizer(fileLine, ",");
-        firstName = names.nextToken();
+        lastName =  names.nextToken();
 
         StringTokenizer others = new StringTokenizer(names.nextToken(),"--");
-        lastName = others.nextToken().trim();
+        firstName = others.nextToken().trim();
     }
 
     public String getFullName(){

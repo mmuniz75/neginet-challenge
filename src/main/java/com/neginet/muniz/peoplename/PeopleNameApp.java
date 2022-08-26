@@ -11,7 +11,8 @@ public class PeopleNameApp {
         }
 
         try  {
-            NameFileReader.process(fileName);
+            NameFileReader nameFileReader = new NameFileReader();
+            nameFileReader.process(fileName);
 
         } catch (Exception e) {
            System.out.println(e.getMessage());
