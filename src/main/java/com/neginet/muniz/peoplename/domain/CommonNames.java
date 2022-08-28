@@ -24,50 +24,43 @@ public class CommonNames {
     }
 
     public void shirinkMapNames(){
-       shirinkMap(firstNames);
-       shirinkMap(lastNames);
+        firstNames = shirinkMap(firstNames);
+        lastNames = shirinkMap(lastNames);
     }
 
-    private void shirinkMap(TreeMap<Long, List<String>> map){
+    private TreeMap<Long, List<String>> shirinkMap(TreeMap<Long, List<String>> map){
+        TreeMap<Long, List<String>> shirinkMap = new TreeMap<>(Comparator.reverseOrder());
         int countItens = 0;
-        List<Long> keysToRemove = new ArrayList<>();
+
         for(long key : map.keySet()){
             List names = map.get(key);
             var remainSpace = 10 - countItens;
             if(names.size() > remainSpace){
                 List<String> newNames = new ArrayList<>();
                 newNames.addAll(names.subList(0,remainSpace));
-                map.put(key, newNames);
-                for(long key2 : map.keySet()){
-                    if(key2>=key) continue;
-                    keysToRemove.add(key2);
-                }
-            }else
+                shirinkMap.put(key, newNames);
+                break;
+            }else {
                 countItens = countItens + names.size();
+                shirinkMap.put(key, names);
+            }
         }
 
-        if(!keysToRemove.isEmpty()){
-            for(long key : keysToRemove)
-                map.remove(key);
-        }
-
+        return shirinkMap;
     }
 
     public void addValueToMap(TreeMap<Long, List<String>> map, String value, Long count){
         removeOldValues(map, value);
         List<String> values = null;
-        if(map.containsKey(count)) {
+
+        if(map.containsKey(count))
             values = map.get(count);
-            if(map.size()==10)
-                map.pollLastEntry(); // remove last item if already has 10 itens
-        }else
+        else
             values = new ArrayList<>();
 
         values.add(value);
 
         map.put(count, values);
-        if(map.size()>10)
-            map.pollLastEntry();
     }
 
     private void removeOldValues(Map<Long, List<String>> map, String oldValue){
