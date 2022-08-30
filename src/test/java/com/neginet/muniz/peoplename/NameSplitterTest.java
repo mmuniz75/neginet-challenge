@@ -19,7 +19,7 @@ public class NameSplitterTest {
     @Test
     public void oneInvalidName() {
         NameFileReader nameFileReader = new NameFileReader();
-        var output = nameFileReader.process(rootPath + "coding-test-data-1.txt");
+        var output = nameFileReader.process(rootPath + "coding-test-data-1.txt",3);
         var nameCounts = output.getNameCounts();
         assertTrue( nameCounts.getCountFullName() == 5);
         assertTrue( nameCounts.getCountLastNames() == 4);
@@ -37,6 +37,16 @@ public class NameSplitterTest {
         assertEquals("Joan", commonFirstNames.get(3L).get(0));
         assertEquals("Sam", commonFirstNames.get(1L).get(0));
         assertEquals("Eric", commonFirstNames.get(1L).get(1));
+
+        var modifiedNames = output.getModifiedNames();
+        assertEquals("Eric", modifiedNames.get(0).getFirstName());
+        assertEquals("Sam", modifiedNames.get(1).getFirstName());
+        assertEquals("Joan", modifiedNames.get(2).getFirstName());
+
+        assertEquals("Smith", modifiedNames.get(0).getLastName());
+        assertEquals("Thomas", modifiedNames.get(1).getLastName());
+        assertEquals("Upton", modifiedNames.get(2).getLastName());
+
     }
 
 }

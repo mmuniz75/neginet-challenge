@@ -7,7 +7,8 @@ import com.neginet.muniz.peoplename.dto.NameCounts;
 
 import java.io.*;
 import java.net.CookieHandler;
-import java.util.HashMap;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class NameFileReader {
 
@@ -15,12 +16,16 @@ public class NameFileReader {
     private HashMap<String, Long> lastNames = new HashMap<>();
     private HashMap<String, Long> fullNames = new HashMap<>();
     private CommonNames commonNames = new CommonNames();
+    private Integer countModifiedNames = 25;
 
-    public AnalisysOutput process (String fileName) {
+    public AnalisysOutput process (String fileName, int countModifiedNames) {
 
         AnalisysOutput output = new AnalisysOutput();
         if(fileName==null)
             throw new IllegalStateException("Full path file name argument not informed !");
+
+        if(countModifiedNames>0)
+            this.countModifiedNames = countModifiedNames;
 
         File file = new File(fileName);
 
@@ -35,6 +40,7 @@ public class NameFileReader {
                 Person person = new Person(line);
                 if(person.isValid()){
                     processNameCounts(person);
+                    collectAllNames(person);
                 }
 
             }
@@ -47,6 +53,7 @@ public class NameFileReader {
         output.setNameCounts(new NameCounts(firstNames.size(), lastNames.size(), fullNames.size()));
         commonNames.shirinkMapNames();
         output.setCommonNames(commonNames);
+        output.setModifiedNames(processModifiedNames());
         return output;
     }
 
@@ -70,6 +77,39 @@ public class NameFileReader {
             map.put(key, count);
 
        return count;
+    }
+
+    Queue<String> noDuplicateLastNames = new ArrayDeque<>();
+    Stack<String> noDuplicateFirstNames = new Stack<>();
+    List<String> existsNames = new ArrayList<>();
+    private void collectAllNames(Person person) {
+        if(existsNames.size() >= countModifiedNames*2)
+            return;
+
+        if(!existsNames.contains(person.getFirstName())){
+            existsNames.add(person.getFirstName());
+            noDuplicateFirstNames.push(person.getFirstName());
+        }
+
+        if(!existsNames.contains(person.getLastName())){
+            existsNames.add(person.getLastName());
+            noDuplicateLastNames.add(person.getLastName());
+        }
+
+    }
+
+    private List<Person>processModifiedNames() {
+        List<Person> modifiedNames = new ArrayList<>();
+
+        int countFirstName = noDuplicateFirstNames.size();
+        int countLastName = noDuplicateLastNames.size();
+
+        for(int index = 0; index < countFirstName && index < countLastName ;index++){
+            Person person = new Person(noDuplicateFirstNames.pop(), noDuplicateLastNames.poll());
+            modifiedNames.add(person);
+        }
+
+        return modifiedNames;
     }
 
 }
